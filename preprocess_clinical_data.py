@@ -121,7 +121,19 @@ for col in categorical_columns:
             print(f"  {code} = {label:20s} (n={count})")
 
         df = df.drop(columns=[col])
+print()
+# HANDLE MISSING VALUES
+print("4.3.1 HANDLING MISSING VALUES:")
+print("-" * 60)
 
+if 'Time to Recurrence (months)' in df.columns:
+    missing_count = df['Time to Recurrence (months)'].isnull().sum()
+    print(f"Missing values in Time to Recurrence: {missing_count}")
+
+    # Replace missing recurrence time with 0 (means no recurrence)
+    df['Time to Recurrence (months)'] = df['Time to Recurrence (months)'].fillna(0)
+
+    print("✓ Filled missing recurrence times with 0\n")
 print()
 
 print("4.4 NORMALIZATION - Numerical Features:")
@@ -200,5 +212,6 @@ print(f"  - Classification target: Histology_Encoded")
 print(f"  - Regression target: Survival_Rate (%)")
 print(f"  - All features are numeric and ready for modeling")
 print("="*80)
+
 
 print(df[['Survival_Rate']].describe())
